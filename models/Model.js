@@ -289,6 +289,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  docTitle1: {
+    type: String,
+    require: true,
+  },
   issueAuth: {
     type: String,
     require: true,
@@ -297,7 +301,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  expdate: {
+  expDate: {
     type: String,
     require: true,
   },
@@ -493,7 +497,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  clickhereSB: {
+  clickHereSB: {
     type: String,
     require: true,
   },
