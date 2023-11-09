@@ -3,12 +3,12 @@ const loungeAndGril = require("../models/LoungeAndGrill");
 const naraCafe = require("../models/NaraCafe");
 
 //Lapasha
-module.exports.getFormData = async (req, res) => {
-  const userData = await formModel.find();
+module.exports.getFormData = (req, res) => {
+  const userData = formModel.find();
   res.send(userData);
 };
 
-module.exports.saveFormData = async (req, res) => {
+module.exports.saveFormData = (req, res) => {
   const {
     fNamePerInfo,
     lnamePerInfo,
@@ -273,12 +273,12 @@ module.exports.saveFormData = async (req, res) => {
 };
 
 //Lapasha Lounge And Grill
-module.exports.getLoungeAndGrillData = async (req, res) => {
-  const userData = await loungeAndGril.find();
+module.exports.getLoungeAndGrillData = (req, res) => {
+  const userData = loungeAndGril.find();
   res.send(userData);
 };
 
-module.exports.saveLoungeAndGrillData = async (req, res) => {
+module.exports.saveLoungeAndGrillData = (req, res) => {
   const {
     fNamePerInfo,
     lnamePerInfo,
@@ -544,12 +544,12 @@ module.exports.saveLoungeAndGrillData = async (req, res) => {
 
 //Nara Cafe
 
-module.exports.getNaraCafeData = async (req, res) => {
-  const userData = await naraCafe.find();
+module.exports.getNaraCafeData = (req, res) => {
+  const userData = naraCafe.find();
   res.send(userData);
 };
 
-module.exports.saveNaraCafeData = async (req, res) => {
+module.exports.saveNaraCafeData = (req, res) => {
   const {
     fNamePerInfo,
     lnamePerInfo,
@@ -813,6 +813,6 @@ module.exports.saveNaraCafeData = async (req, res) => {
     });
 };
 
-module.exports.testing = async (req, res) => {
+module.exports.testing = (req, res) => {
   res.send("Hello World");
 };
