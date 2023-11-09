@@ -23,73 +23,75 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(express.json());
 app.use(cors());
 app.use(routes);
-const transporter = nodemailer.createTransport({
-  host: 'flowtechnologies.io',
-  port: 465,
-  secure: true,
-  auth: {
-    user: 'furqan.rahim@flowtechnologies.io',
-    pass: 'Furqan@123@@@',
-  },
-});
 
-app.post('/generate-and-send-pdf', async (req, res) => {
-  const formData = req.body.data;
 
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+// const transporter = nodemailer.createTransport({
+//   host: 'flowtechnologies.io',
+//   port: 465,
+//   secure: true,
+//   auth: {
+//     user: 'furqan.rahim@flowtechnologies.io',
+//     pass: 'Furqan@123@@@',
+//   },
+// });
 
-  await page.goto('http://localhost:3000/eligibilityverificationview');
-  await page.waitForTimeout(8000);
+// app.post('/generate-and-send-pdf', async (req, res) => {
+//   const formData = req.body.data;
 
-  const pdfBuffer = await page.pdf({ format: 'A4' });
+//   const browser = await puppeteer.launch();
+//   const page = await browser.newPage();
 
-  const pdfPath = path.join(__dirname, 'generated.pdf');
-  fs.writeFileSync(pdfPath, pdfBuffer);
+//   await page.goto('http://localhost:3000/eligibilityverificationview');
+//   await page.waitForTimeout(8000);
 
-  await browser.close();
+//   const pdfBuffer = await page.pdf({ format: 'A4' });
 
-  const emailAddresses = ['arsalan.mazhar@flowtechnologies.io', 'jawwad@flowtechnologies.io', 'zain@flowtechnologies.io'];
-  const attachments = [{ path: pdfPath }];
+//   const pdfPath = path.join(__dirname, 'generated.pdf');
+//   fs.writeFileSync(pdfPath, pdfBuffer);
 
-  emailAddresses.forEach((email) => {
-    const mailOptions = {
-      from: 'furqan.rahim@flowtechnologies.io',
-      to: email,
-      subject: 'PDF Attachment',
-      text: 'Attached is the PDF you requested.',
-      attachments,
-    };
+//   await browser.close();
 
-    const operation = retry.operation({
-      retries: 3,
-      factor: 2,
-      minTimeout: 0,
-      maxTimeout: 3000,
-    });
+//   const emailAddresses = ['arsalan.mazhar@flowtechnologies.io', 'jawwad@flowtechnologies.io', 'zain@flowtechnologies.io'];
+//   const attachments = [{ path: pdfPath }];
 
-    operation.attempt((currentAttempt) => {
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (operation.retry(error)) {
-          console.error('Email not sent, retrying...', currentAttempt);
-          return;
-        }
+//   emailAddresses.forEach((email) => {
+//     const mailOptions = {
+//       from: 'furqan.rahim@flowtechnologies.io',
+//       to: email,
+//       subject: 'PDF Attachment',
+//       text: 'Attached is the PDF you requested.',
+//       attachments,
+//     };
 
-        if (error) {
-          console.error('Email not sent:', error);
-        } else {
-          console.log('Email sent:', info.response);
-        }
-      });
-    });
-  });
-  res.json({ pdfPath: '/download-pdf' });
-});
+//     const operation = retry.operation({
+//       retries: 3,
+//       factor: 2,
+//       minTimeout: 0,
+//       maxTimeout: 3000,
+//     });
 
-app.get('/download-pdf', (req, res) => {
-  const pdfPath = path.join(__dirname, 'generated.pdf');
-  res.download(pdfPath, 'generated.pdf');
-});
+//     operation.attempt((currentAttempt) => {
+//       transporter.sendMail(mailOptions, (error, info) => {
+//         if (operation.retry(error)) {
+//           console.error('Email not sent, retrying...', currentAttempt);
+//           return;
+//         }
+
+//         if (error) {
+//           console.error('Email not sent:', error);
+//         } else {
+//           console.log('Email sent:', info.response);
+//         }
+//       });
+//     });
+//   });
+//   res.json({ pdfPath: '/download-pdf' });
+// });
+
+// app.get('/download-pdf', (req, res) => {
+//   const pdfPath = path.join(__dirname, 'generated.pdf');
+//   res.download(pdfPath, 'generated.pdf');
+// });
 
 mongoose
   .connect(process.env.MONGODB_URL)
