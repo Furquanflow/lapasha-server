@@ -11,13 +11,13 @@ const {
 const router = express.Router();
 
 router.get("/formdata", getFormData);
-// router.post("/formdatapost", saveFormData);
+router.post("/formdatapost", saveFormData);
 
 router.get("/loungeandgrilldata", getLoungeAndGrillData);
-// router.post("/loungeandgrilldatapost", saveLoungeAndGrillData);
+router.post("/loungeandgrilldatapost", saveLoungeAndGrillData);
 
 router.get("/naracafedata", getNaraCafeData);
-// router.post("/naracafedataPost", saveNaraCafeData);
+router.post("/naracafedataPost", saveNaraCafeData);
 
 router.get("/", testing);
 
