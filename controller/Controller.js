@@ -812,3 +812,7 @@ module.exports.saveNaraCafeData = async (req, res) => {
       res.send(data);
     });
 };
+
+module.exports.testing = async (req, res) => {
+  res.send("Hello World");
+};
