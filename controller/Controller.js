@@ -135,7 +135,6 @@ module.exports.saveFormData = async (req, res) => {
     signOfEmpSB,
     todayDateSB,
     clickhereSB,
-    e
   } = req.body;
   formModel
     .create({
@@ -405,7 +404,6 @@ module.exports.saveLoungeAndGrillData = async (req, res) => {
     signOfEmpSB,
     todayDateSB,
     clickhereSB,
-    e
   } = req.body;
   loungeAndGril
     .create({
@@ -676,7 +674,6 @@ module.exports.saveNaraCafeData = async (req, res) => {
     signOfEmpSB,
     todayDateSB,
     clickhereSB,
-    e
   } = req.body;
   naraCafe
     .create({
