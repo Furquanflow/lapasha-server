@@ -1,13 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const routes = require("./router/Router") ;
+const routes = require("./router/Router");
 const bodyParser = require('body-parser');
-const nodemailer = require('nodemailer') ;
+const nodemailer = require('nodemailer');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
-const punycode = require('punycode') ;
+const punycode = require('punycode');
 const retry = require('retry');
 const puppeteer = require('puppeteer');
 
