@@ -678,7 +678,7 @@ module.exports.saveNaraCafeData = async (req, res) => {
     clickhereSB,
     e
   } = req.body;
- const result = naraCafe
+ const result = await naraCafe
     .create({
       fNamePerInfo,
       lnamePerInfo,
