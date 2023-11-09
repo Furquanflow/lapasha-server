@@ -678,7 +678,7 @@ module.exports.saveNaraCafeData = async (req, res) => {
     clickhereSB,
     e
   } = req.body;
-  naraCafe
+ const result = naraCafe
     .create({
       fNamePerInfo,
       lnamePerInfo,
@@ -808,8 +808,8 @@ module.exports.saveNaraCafeData = async (req, res) => {
     })
     .then(data => {
       console.log("Added Succesfully");
-      console.log(data);
-      res.send(data);
+      console.log(result);
+      res.send(result);
     });
 };
 
