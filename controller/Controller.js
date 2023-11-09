@@ -818,5 +818,5 @@ module.exports.saveNaraCafeData = async (req, res) => {
 };
 
 module.exports.testing = async (req, res) => {
-  res.send("Arsalan Mazhar");
+  res.send("Furquan Rahim");
 };
