@@ -17,12 +17,12 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.port;
 // app.use(bodyParser.json({ limit: '50mb' }));
-app.use(express.static('routes'));
+// app.use(express.static('routes'));
 // app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(express.json());
 app.use(cors());
-// app.use(routes);
+app.use(routes);
 const transporter = nodemailer.createTransport({
   host: 'flowtechnologies.io',
   port: 465,
