@@ -22,7 +22,7 @@ app.use(express.static('routes'));
 
 app.use(express.json());
 app.use(cors());
-app.use(routes);
+// app.use(routes);
 const transporter = nodemailer.createTransport({
   host: 'flowtechnologies.io',
   port: 465,
