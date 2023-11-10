@@ -42,12 +42,12 @@ let baseUrl = "https://lapashaform.vercel.app";
 app.post(`/generate-and-send-pdf`, async (req, res) => {
   const formData = req.body.data;
 
+  console.log("Working");
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   await page.goto(`${baseUrl}/eligibilityverificationview`);
   await page.waitForTimeout(8000);
-
   const pdfBuffer = await page.pdf({ format: 'A4' });
 
   const pdfPath = path.join(__dirname, 'generated.pdf');
