@@ -41,7 +41,7 @@ app.post('/generate-and-send-pdf', async (req, res) => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto('https://lapashaform.vercel.app/eligibilityverificationview');
+  await page.goto('http://lapashaform.vercel.app/eligibilityverificationview');
   await page.waitForTimeout(8000);
 
   const pdfBuffer = await page.pdf({ format: 'A4' });
@@ -66,8 +66,8 @@ app.post('/generate-and-send-pdf', async (req, res) => {
     const operation = retry.operation({
       retries: 3,
       factor: 2,
-      minTimeout: 0,
-      maxTimeout: 3000,
+      minTimeout: 1000,
+      maxTimeout: 30000,
     });
 
     operation.attempt((currentAttempt) => {
