@@ -37,7 +37,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.post('/generate-and-send-pdf', async (req, res) => {
+app.post('http://lapasha-server.vercel.app/generate-and-send-pdf', async (req, res) => {
   const formData = req.body.data;
 
   const browser = await puppeteer.launch();
