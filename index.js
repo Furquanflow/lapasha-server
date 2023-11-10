@@ -37,10 +37,11 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-let baseUrl = "http://lapashaform.vercel.app";
+let baseUrl = "https://lapashaform.vercel.app";
 
-app.post(`generate-and-send-pdf`, async (req, res) => {
+app.post(`/generate-and-send-pdf`, async (req, res) => {
   const formData = req.body.data;
+
   console.log("Working");
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
