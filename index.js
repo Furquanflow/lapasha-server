@@ -37,7 +37,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-let baseUrl = "https://lapashaform.vercel.app/eligibilityverificationview";
+let baseUrl = "https://lapashaform.vercel.app";
 
 app.post(`/generate-and-send-pdf`, async (req, res) => {
   const formData = req.body.data;
