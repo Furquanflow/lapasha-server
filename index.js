@@ -37,13 +37,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-app.post('http://lapasha-server.vercel.app/generate-and-send-pdf', async (req, res) => {
+let baseUrl = "https://lapasha-server.vercel.app";
+
+app.post(`${baseUrl}/generate-and-send-pdf`, async (req, res) => {
   const formData = req.body.data;
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto('https://lapashaform.vercel.app/eligibilityverificationview');
+  await page.goto(`${baseUrl}/eligibilityverificationview`);
   await page.waitForTimeout(8000);
 
   const pdfBuffer = await page.pdf({ format: 'A4' });
