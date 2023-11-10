@@ -18,6 +18,4 @@ router.post("/loungeandgrilldatapost", saveLoungeAndGrillData);
 router.get("/naracafedata", getNaraCafeData);
 router.post("/naracafedataPost", saveNaraCafeData);
 
-
-
 module.exports = router;

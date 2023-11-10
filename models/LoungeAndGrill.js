@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+const loungeAndGrillSchema = new mongoose.Schema({
   fNamePerInfo: {
     type: String,
     require: true,
@@ -503,4 +503,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("laungeAndGrill", userSchema);
+module.exports = mongoose.model("laungeAndGrill", loungeAndGrillSchema);
