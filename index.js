@@ -11,11 +11,18 @@ const punycode = require('punycode');
 const retry = require('retry');
 const puppeteer = require('puppeteer');
 
+let baseUrl = "https://lapashaform.vercel.app";
+
 
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: 'https://lapashaform.vercel.app',
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 
 const PORT = process.env.port;
@@ -37,7 +44,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-let baseUrl = "https://lapasha-form.netlify.app";
+
 
 app.post(`/generate-and-send-pdf`, async (req, res) => {
   const formData = req.body.data;
