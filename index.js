@@ -18,7 +18,7 @@ require("dotenv").config();
 
 const app = express();
 const corsOptions = {
-  origin: 'https://lapashaform.vercel.app',
+  origin: 'https://lapashaform.vercel.app/eligibilityverificationview',
   optionsSuccessStatus: 200,
 };
 
