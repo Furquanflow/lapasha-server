@@ -11,18 +11,18 @@ const punycode = require('punycode');
 const retry = require('retry');
 const puppeteer = require('puppeteer');
 
-let baseUrl = "https://lapashaform.vercel.app";
+// let baseUrl = "http://localhost:3000";
 
 
 require("dotenv").config();
 
 const app = express();
-const corsOptions = {
-  origin: 'https://lapashaform.vercel.app/eligibilityverificationview',
-  optionsSuccessStatus: 200,
-};
+// const corsOptions = {
+//   origin: 'http://localhost:3000/eligibilityverificationview',
+//   optionsSuccessStatus: 200,
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 
 const PORT = process.env.port;
@@ -53,7 +53,7 @@ app.post(`/generate-and-send-pdf`, async (req, res) => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto(`${baseUrl}/eligibilityverificationview`);
+  await page.goto("https://lapashaform.vercel.app/eligibilityverificationview");
   await page.waitForTimeout(8000);
   const pdfBuffer = await page.pdf({ format: 'A4' });
 
