@@ -96,6 +96,13 @@ app.post(`/generate-and-send-pdf`, async (req, res) => {
       });
     });
   });
+
+
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+
   res.json({ pdfPath: '/download-pdf' });
 });
 
