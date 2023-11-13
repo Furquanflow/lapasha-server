@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const retry = require('retry');
 const puppeteer = require('puppeteer');
-let baseUrl = "http://localhost:3000";
+let baseUrl = "https://lapashaform.vercel.app";
 
 require("dotenv").config();
 const app = express();
