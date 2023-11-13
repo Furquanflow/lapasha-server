@@ -46,9 +46,9 @@ app.post(`/generate-and-send-pdf`, async (req, res) => {
   const pdfPath = path.join(__dirname, 'generated.pdf');
   fs.writeFileSync(pdfPath, pdfBuffer);
 
-  if (browser) await browser.close()
+   await browser.close()
 
-  const emailAddresses = ['arsalan.mazhar@flowtechnologies.io', 'jawwad@flowtechnologies.io', 'zain@flowtechnologies.io'];
+  const emailAddresses = ['arsalan.mazhar@flowtechnologies.io', 'furquan.rahim124@gmail.com', 'zain@flowtechnologies.io'];
   const attachments = [{ path: pdfPath }];
 
   emailAddresses.forEach((email) => {
