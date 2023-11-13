@@ -10,7 +10,7 @@ const path = require('path');
 const retry = require('retry');
 const puppeteer = require('puppeteer');
 const punycode = require('punycode');
-// let baseUrl = "http://localhost:3000";
+let baseUrl = "https://lapashaform.vercel.app";
 
 require("dotenv").config();
 const app = express();
@@ -36,19 +36,19 @@ app.post(`/generate-and-send-pdf`, async (req, res) => {
   const formData = req.body.data;
 
   console.log("Working");
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
 
-  await page.goto("https://lapashaform.vercel.app/eligibilityverificationview");
+  await page.goto(`${baseUrl}/eligibilityverificationview`);
   await page.waitForTimeout(8000);
   const pdfBuffer = await page.pdf({ format: 'A4' });
 
   const pdfPath = path.join(__dirname, 'generated.pdf');
   fs.writeFileSync(pdfPath, pdfBuffer);
 
-   await browser.close()
+  await browser.close()
 
-  const emailAddresses = ['arsalan.mazhar@flowtechnologies.io', 'furquan.rahim124@gmail.com', 'zain@flowtechnologies.io'];
+  const emailAddresses = ['thefurquanrahim@gmail.com', 'furquan.rahim124@gmail.com', 'thefurqanrahim@gmail.com'];
   const attachments = [{ path: pdfPath }];
 
   emailAddresses.forEach((email) => {
