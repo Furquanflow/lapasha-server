@@ -2,15 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const routes = require("./router/Router");
-const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
 const retry = require('retry');
 const puppeteer = require('puppeteer');
-const punycode = require('punycode');
-let baseUrl = "https://lapashaform.vercel.app";
+let baseUrl = "http://localhost:3000";
 
 require("dotenv").config();
 const app = express();
