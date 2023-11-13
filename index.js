@@ -9,14 +9,14 @@ const fs = require('fs');
 const path = require('path');
 const retry = require('retry');
 const puppeteer = require('puppeteer');
-const punycode = require('punycode/');
+const punycode = require('punycode');
 // let baseUrl = "http://localhost:3000";
 
 require("dotenv").config();
 const app = express();
 app.use(cors());
 const PORT = process.env.port;
-app.use(bodyParser.json({ limit: '50mb' }));
+// app.use(bodyParser.json({ limit: '50mb' }));
 app.use(express.json());
 app.use(routes);
 
@@ -46,7 +46,7 @@ app.post(`/generate-and-send-pdf`, async (req, res) => {
   const pdfPath = path.join(__dirname, 'generated.pdf');
   fs.writeFileSync(pdfPath, pdfBuffer);
 
-  await browser.close();
+  if (browser) await browser.close()
 
   const emailAddresses = ['arsalan.mazhar@flowtechnologies.io', 'jawwad@flowtechnologies.io', 'zain@flowtechnologies.io'];
   const attachments = [{ path: pdfPath }];
