@@ -7,32 +7,18 @@ const nodemailer = require('nodemailer');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
-const punycode = require('punycode');
 const retry = require('retry');
 const puppeteer = require('puppeteer');
-
+const punycode = require('punycode/');
 // let baseUrl = "http://localhost:3000";
 
-
 require("dotenv").config();
-
 const app = express();
-// const corsOptions = {
-//   origin: 'http://localhost:3000/eligibilityverificationview',
-//   optionsSuccessStatus: 200,
-// };
-
 app.use(cors());
-
-
 const PORT = process.env.port;
 app.use(bodyParser.json({ limit: '50mb' }));
-// app.use(express.static('routes'));
-// app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-
 app.use(express.json());
 app.use(routes);
-
 
 const transporter = nodemailer.createTransport({
   host: 'flowtechnologies.io',
