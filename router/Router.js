@@ -6,6 +6,8 @@ const {
   saveLoungeAndGrillData,
   getNaraCafeData,
   saveNaraCafeData,
+  postPdf,
+  getPdf
 } = require("../controller/Controller");
 const router = express.Router();
 
@@ -17,5 +19,8 @@ router.post("/loungeandgrilldatapost", saveLoungeAndGrillData);
 
 router.get("/naracafedata", getNaraCafeData);
 router.post("/naracafedataPost", saveNaraCafeData);
+
+router.get("/download-pdf", getPdf);
+router.post("/generate-and-send-pdf", postPdf)
 
 module.exports = router;
