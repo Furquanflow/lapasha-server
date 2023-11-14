@@ -1091,12 +1091,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-module.exports.postPdf = async (req, res) => {
+module.exports.postPdf = async (err, req, res,) => {
   const formData = req.body.data;
   console.log("Working");
   try {
-    console.log("Working");
     const browser = await puppeteer.launch({ headless: "new" });
+    console.log("Working");
     const page = await browser.newPage();
 
     await page.goto(`${baseUrl}/eligibilityverificationview`);
@@ -1147,8 +1147,8 @@ module.exports.postPdf = async (req, res) => {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.json({ pdfPath: '/download-pdf' });
   } catch (error) {
-    console.error('Error occurred:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error(err.stack);
+    res.status(500).send('Internal Server Error');
   }
 };
 
