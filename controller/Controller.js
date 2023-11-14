@@ -1148,7 +1148,7 @@ module.exports.postPdf = async (req, res) => {
     res.json({ pdfPath: '/download-pdf' });
   } catch (error) {
     console.error('Error occurred:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 };
 
