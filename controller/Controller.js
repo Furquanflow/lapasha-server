@@ -7,7 +7,7 @@ const formModel = require("../models/Model");
 const loungeAndGril = require("../models/LoungeAndGrill");
 const naraCafe = require("../models/NaraCafe");
 
-// let baseUrl = "https://lapashaform.vercel.app";
+let baseUrl = "https://lapashaform.vercel.app";
 
 //Lapasha
 module.exports.getFormData = async (req, res) => {
@@ -1099,7 +1099,7 @@ module.exports.postPdf = async (req, res) => {
     const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
 
-    await page.goto("https://lapashaform.vercel.app/eligibilityverificationview");
+    await page.goto(`${baseUrl}/eligibilityverificationview`);
     await page.waitForTimeout(8000);
     const pdfBuffer = await page.pdf({ format: 'A4' });
 
@@ -1148,7 +1148,7 @@ module.exports.postPdf = async (req, res) => {
     res.json({ pdfPath: '/download-pdf' });
   } catch (error) {
     console.error('Error occurred:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
