@@ -1095,10 +1095,11 @@ module.exports.postPdf = async (req, res) => {
   const formData = req.body.data;
   console.log("Working");
   try {
+    console.log("Working");
     const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
 
-    await page.goto(`https://lapashaform.vercel.app/eligibilityverificationview`);
+    await page.goto("https://lapashaform.vercel.app/eligibilityverificationview");
     await page.waitForTimeout(8000);
     const pdfBuffer = await page.pdf({ format: 'A4' });
 
