@@ -1147,7 +1147,7 @@ module.exports.postPdf = async (req, res) => {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.json({ pdfPath: '/download-pdf' });
   } catch (error) {
-    console.error(err.stack);
+    console.log(error);
     // res.status(500).send('Internal Server Error');
   }
 };
