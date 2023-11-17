@@ -1091,7 +1091,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-module.exports.postPdf = async (err, req, res,) => {
+module.exports.postPdf = async (req, res) => {
   const formData = req.body.data;
   console.log("Working");
   try {
@@ -1148,7 +1148,7 @@ module.exports.postPdf = async (err, req, res,) => {
     res.json({ pdfPath: '/download-pdf' });
   } catch (error) {
     console.error(err.stack);
-    res.status(500).send('Internal Server Error');
+    // res.status(500).send('Internal Server Error');
   }
 };
 
