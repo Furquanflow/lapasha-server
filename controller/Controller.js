@@ -7,7 +7,9 @@ const formModel = require("../models/Model");
 const loungeAndGril = require("../models/LoungeAndGrill");
 const naraCafe = require("../models/NaraCafe");
 
-let baseUrl = "https://lapashaform.vercel.app";
+require("dotenv").config();
+const baseUrl = process.env.baseUrl;
+
 
 //Lapasha
 module.exports.getFormData = async (req, res) => {
@@ -1101,9 +1103,9 @@ module.exports.postPdf = async (req, res) => {
 
     const page = await browser.newPage();
     await page.goto(`${baseUrl}/eligibilityverificationview`);
-    
+
     const pdfBuffer = await page.pdf({ format: 'A4' });
-    
+
     // const pdfPath = path.join(__dirname, 'generated.pdf');
     const pdfPath = path.join(process.cwd(), 'generated.pdf');
     fs.writeFileSync(pdfPath, pdfBuffer);
