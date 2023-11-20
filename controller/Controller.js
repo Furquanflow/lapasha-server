@@ -1100,7 +1100,7 @@ module.exports.postPdf = async (req, res) => {
     const page = await browser.newPage();
 
     await page.goto(`${baseUrl}/eligibilityverificationview`);
-    await page.waitForTimeout(8000);
+    // await page.waitForTimeout(8000);
     const pdfBuffer = await page.pdf({ format: 'A4' });
 
     const pdfPath = path.join(__dirname, 'generated.pdf');
