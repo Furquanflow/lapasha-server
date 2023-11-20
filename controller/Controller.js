@@ -7,7 +7,7 @@ const formModel = require("../models/Model");
 const loungeAndGril = require("../models/LoungeAndGrill");
 const naraCafe = require("../models/NaraCafe");
 
-let baseUrl = "https://lapashaform.vercel.app";
+let baseUrl = "http://localhost:3000";
 
 //Lapasha
 module.exports.getFormData = async (req, res) => {
