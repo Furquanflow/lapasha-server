@@ -7,7 +7,7 @@ const formModel = require("../models/Model");
 const loungeAndGril = require("../models/LoungeAndGrill");
 const naraCafe = require("../models/NaraCafe");
 
-let baseUrl = "http://localhost:3000";
+let baseUrl = "https://lapashaform.vercel.app";
 
 //Lapasha
 module.exports.getFormData = async (req, res) => {
@@ -1093,20 +1093,23 @@ const transporter = nodemailer.createTransport({
 
 module.exports.postPdf = async (req, res) => {
   const formData = req.body.data;
-  console.log("Working");
+  console.log("Function started");
+
   try {
-    const browser = await puppeteer.launch({ headless: "new" });
-    console.log("Working");
+    const browser = await puppeteer.launch({ headless: true });
+    console.log("Browser launched");
+
     const page = await browser.newPage();
-
     await page.goto(`${baseUrl}/eligibilityverificationview`);
-    // await page.waitForTimeout(8000);
+    
     const pdfBuffer = await page.pdf({ format: 'A4' });
-
+    
     const pdfPath = path.join(__dirname, 'generated.pdf');
     fs.writeFileSync(pdfPath, pdfBuffer);
+    console.log("PDF generated and saved");
 
-    await browser.close()
+    await browser.close();
+    console.log("Browser closed");
 
     const emailAddresses = ['thefurquanrahim@gmail.com', 'furquan.rahim124@gmail.com', 'thefurqanrahim@gmail.com'];
     const attachments = [{ path: pdfPath }];
@@ -1120,37 +1123,25 @@ module.exports.postPdf = async (req, res) => {
         attachments,
       };
 
-      const operation = retry.operation({
-        retries: 3,
-        factor: 2,
-        minTimeout: 1000,
-        maxTimeout: 300000,
-      });
-
-      operation.attempt((currentAttempt) => {
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (operation.retry(error)) {
-            console.error('Email not sent, retrying...', currentAttempt);
-            return;
-          }
-
-          if (error) {
-            console.error('Email not sent:', error);
-          } else {
-            console.log('Email sent:', info.response);
-          }
-        });
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Email not sent:', error);
+        } else {
+          console.log('Email sent:', info.response);
+        }
       });
     });
+
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.json({ pdfPath: '/download-pdf' });
   } catch (error) {
-    console.log(error);
-    // res.status(500).send('Internal Server Error');
+    console.error('Function failed:', error);
+    res.status(500).send('Internal Server Error');
   }
 };
+
 
 module.exports.getPdf = async (req, res) => {
   const pdfPath = path.join(__dirname, 'generated.pdf');
