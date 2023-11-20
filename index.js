@@ -10,6 +10,8 @@
   app.use(express.json());
   app.use(routes);
 
+  module.exports.baseUrl = process.env.baseUrl;
+
   mongoose
     .connect(process.env.MONGODB_URL)
     .then(() => console.log("Connected to MongoDB"))

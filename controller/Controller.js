@@ -2,14 +2,13 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 const retry = require('retry');
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
 const formModel = require("../models/Model");
 const loungeAndGril = require("../models/LoungeAndGrill");
 const naraCafe = require("../models/NaraCafe");
+const { chromium } = require('playwright');
 
-require("dotenv").config();
-const baseUrl = process.env.baseUrl;
-
+let baseUrl = "https://lapashaform.vercel.app";
 
 //Lapasha
 module.exports.getFormData = async (req, res) => {
@@ -1098,14 +1097,14 @@ module.exports.postPdf = async (req, res) => {
   console.log("Function started");
 
   try {
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await chromium.launch();
     console.log("Browser launched");
 
     const page = await browser.newPage();
     await page.goto(`${baseUrl}/eligibilityverificationview`);
-
+    
     const pdfBuffer = await page.pdf({ format: 'A4' });
-
+    
     // const pdfPath = path.join(__dirname, 'generated.pdf');
     const pdfPath = path.join(process.cwd(), 'generated.pdf');
     fs.writeFileSync(pdfPath, pdfBuffer);
