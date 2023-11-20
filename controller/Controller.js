@@ -1104,7 +1104,8 @@ module.exports.postPdf = async (req, res) => {
     
     const pdfBuffer = await page.pdf({ format: 'A4' });
     
-    const pdfPath = path.join(__dirname, 'generated.pdf');
+    // const pdfPath = path.join(__dirname, 'generated.pdf');
+    const pdfPath = path.join(process.cwd(), 'generated.pdf');
     fs.writeFileSync(pdfPath, pdfBuffer);
     console.log("PDF generated and saved");
 
