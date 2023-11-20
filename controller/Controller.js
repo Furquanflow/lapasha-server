@@ -1124,7 +1124,7 @@ module.exports.postPdf = async (req, res) => {
         retries: 3,
         factor: 2,
         minTimeout: 1000,
-        maxTimeout: 30000,
+        maxTimeout: 300000,
       });
 
       operation.attempt((currentAttempt) => {
