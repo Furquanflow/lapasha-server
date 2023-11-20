@@ -1095,7 +1095,7 @@ module.exports.postPdf = async (req, res) => {
   const formData = req.body.data;
   console.log("Working");
   try {
-    const browser = await puppeteer.launch({ headless: "new" });
+    const browser = await puppeteer.launch({ headless: true });
     console.log("Working");
     const page = await browser.newPage();
 
@@ -1109,7 +1109,7 @@ module.exports.postPdf = async (req, res) => {
     await browser.close()
 
     const emailAddresses = ['thefurquanrahim@gmail.com', 'furquan.rahim124@gmail.com', 'thefurqanrahim@gmail.com'];
-    const attachments = [{ path: pdfPath }];
+    const attachments = [{ filename: 'generated.pdf', content: pdfBuffer }];
 
     emailAddresses.forEach((email) => {
       const mailOptions = {
