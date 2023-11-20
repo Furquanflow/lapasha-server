@@ -11,9 +11,10 @@
       "src": "/(.*)",
       "dest": "/"
     }
-  ]
+  ],
+  "functions": {
+    "api/postPdf": {
+      "maxDuration": 30
+    }
+  }
 }
-
-
-
-
