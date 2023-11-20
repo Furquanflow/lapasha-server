@@ -3,9 +3,15 @@ const mongoose = require("mongoose");
 const cors = require('cors');
 const routes = require("./router/Router");
 
+const corsOrigin ={
+  origin:'https://lapashaform.vercel.app',
+  credentials:true,            
+  optionSuccessStatus:200
+}
+
 require("dotenv").config();
 const app = express();
-app.use(cors());
+app.use(cors(corsOrigin));
 const PORT = process.env.port;
 app.use(express.json());
 app.use(routes);
