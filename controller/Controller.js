@@ -1095,7 +1095,7 @@ module.exports.postPdf = async (req, res) => {
   const formData = req.body.data;
   console.log("Working");
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: "new" });
     console.log("Working");
     const page = await browser.newPage();
 
