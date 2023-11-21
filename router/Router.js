@@ -7,9 +7,22 @@ const {
   getNaraCafeData,
   saveNaraCafeData,
   postPdf,
-  getPdf
+  getPdf,
+
+  postRegisterData,
+  postLoginData,
+  getQuoteData,
+  postQuoteData,
+
 } = require("../controller/Controller");
 const router = express.Router();
+
+//Authentication and Authorization
+
+router.post("/register", postRegisterData)
+router.post("/login", postLoginData)
+router.post("/quote", postQuoteData)
+router.get("/quote", getQuoteData)
 
 router.get("/formdata", getFormData);
 router.post("/formdatapost", saveFormData);
