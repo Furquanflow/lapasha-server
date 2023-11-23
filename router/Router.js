@@ -9,6 +9,7 @@ const {
   postPdf,
   getPdf
 } = require("../controller/Controller");
+const maxDurationMiddleware = require("../max duration middleware/MaxDurationMiddleware")
 const router = express.Router();
 
 router.get("/formdata", getFormData);
@@ -20,7 +21,7 @@ router.post("/loungeandgrilldatapost", saveLoungeAndGrillData);
 router.get("/naracafedata", getNaraCafeData);
 router.post("/naracafedataPost", saveNaraCafeData);
 
-router.get("/download-pdf", getPdf);
-router.post("/generate-and-send-pdf", postPdf)
+router.get("/download-pdf", maxDurationMiddleware, getPdf);
+router.post("/generate-and-send-pdf", maxDurationMiddleware, postPdf)
 
 module.exports = router;
