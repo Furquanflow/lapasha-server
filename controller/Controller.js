@@ -12,7 +12,6 @@ const bcrypt = require('bcryptjs')
 
 let baseUrl = "https://lapashaform.vercel.app";
 
-// app.post('/api/register', async (req, res) => {
 module.exports.postRegisterData = (async (req, res) => {
   console.log(req.body)
   try {
@@ -28,7 +27,6 @@ module.exports.postRegisterData = (async (req, res) => {
   }
 })
 
-// app.post('/api/login', async (req, res) => {
 module.exports.postLoginData = (async (req, res) => {
   const user = await User.findOne({
     email: req.body.email,
@@ -58,7 +56,6 @@ module.exports.postLoginData = (async (req, res) => {
   }
 })
 
-// app.get('/api/quote', async (req, res) => {
 module.exports.getQuoteData = (async (req, res) => {
   const token = req.headers['x-access-token']
 
@@ -74,7 +71,6 @@ module.exports.getQuoteData = (async (req, res) => {
   }
 })
 
-// app.post('/api/quote', async (req, res) => {
 module.exports.postQuoteData = (async (req, res) => {
   const token = req.headers['x-access-token']
 
@@ -1176,14 +1172,30 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-module.exports.postPdf = async (req, res) => {
-  const formData = req.body.data;
-  console.log("Working");
-  try {
-    const browser = await puppeteer.launch({ headless: "new" });
-    console.log("Working");
-    const page = await browser.newPage();
+const TIMEOUT_DURATION = 5000; // 5 seconds
 
+module.exports.postPdf = async (req, res) => {
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('Function timed out')), TIMEOUT_DURATION)
+  );
+
+  try {
+    const formData = req.body.data;
+    console.log('Working');
+
+    const browserPromise = puppeteer.launch({ headless: 'new' }).then((browser) => {
+      console.log('Working');
+      return browser;
+    });
+
+    const [browser, timeout] = await Promise.race([browserPromise, timeoutPromise]);
+
+    if (timeout) {
+      // Handle timeout
+      throw new Error('Function timed out');
+    }
+
+    const page = await browser.newPage();
     await page.goto(`${baseUrl}/eligibilityverificationview`);
     await page.waitForTimeout(8000);
     const pdfBuffer = await page.pdf({ format: 'A4' });
@@ -1191,7 +1203,8 @@ module.exports.postPdf = async (req, res) => {
     const pdfPath = path.join(__dirname, 'generated.pdf');
     fs.writeFileSync(pdfPath, pdfBuffer);
 
-    // await browser.close()
+    // Close the browser
+    await browser.close();
 
     const emailAddresses = ['thefurquanrahim@gmail.com', 'furquan.rahim124@gmail.com', 'thefurqanrahim@gmail.com'];
     const attachments = [{ filename: 'generated.pdf', content: pdfBuffer }];
@@ -1227,6 +1240,7 @@ module.exports.postPdf = async (req, res) => {
         });
       });
     });
+
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -1236,6 +1250,7 @@ module.exports.postPdf = async (req, res) => {
     // res.status(500).send('Internal Server Error');
   }
 };
+
 
 module.exports.getPdf = async (req, res) => {
   const pdfPath = path.join(__dirname, 'generated.pdf');
