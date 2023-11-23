@@ -1177,7 +1177,6 @@ const transporter = nodemailer.createTransport({
 });
 
 module.exports.postPdf = async (req, res) => {
-  console.log('pdfBuffer length:', pdfBuffer.length);
   const formData = req.body.data;
   console.log("Working");
   try {
@@ -1191,8 +1190,6 @@ module.exports.postPdf = async (req, res) => {
 
     const pdfPath = path.join(__dirname, 'generated.pdf');
     fs.writeFileSync(pdfPath, pdfBuffer);
-
-    console.log('pdfBuffer length:', pdfBuffer.length);
 
     // await browser.close()
 

@@ -34,7 +34,7 @@ router.post("/loungeandgrilldatapost", saveLoungeAndGrillData);
 router.get("/naracafedata", getNaraCafeData);
 router.post("/naracafedataPost", saveNaraCafeData);
 
-router.get("/download-pdf", maxDurationMiddleware, getPdf);
-router.post("/generate-and-send-pdf", maxDurationMiddleware, postPdf)
+router.get("/download-pdf", getPdf);
+router.post("/generate-and-send-pdf", postPdf)
 
 module.exports = router;
