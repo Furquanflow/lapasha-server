@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "netlify deploy --prod"
+    "start": "node index.js",
+    "server": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,7 +26,6 @@
     "punycode": "^2.3.1",
     "puppeteer": "^21.5.2",
     "retry": "^0.13.1",
-    "serverless-http": "^3.2.0",
     "util": "^0.12.5"
   }
 }

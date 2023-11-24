@@ -8,14 +8,11 @@ const {
   saveNaraCafeData,
   postPdf,
   getPdf,
-
   postRegisterData,
   postLoginData,
   getQuoteData,
   postQuoteData,
-
 } = require("../controller/Controller");
-const maxDurationMiddleware = require("../max duration middleware/MaxDurationMiddleware")
 const router = express.Router();
 
 //Authentication and Authorization
@@ -32,7 +29,7 @@ router.get("/loungeandgrilldata", getLoungeAndGrillData);
 router.post("/loungeandgrilldatapost", saveLoungeAndGrillData);
 
 router.get("/naracafedata", getNaraCafeData);
-router.post("/naracafedataPost", saveNaraCafeData);
+router.post("/naracafedatapost", saveNaraCafeData);
 
 router.get("/download-pdf", getPdf);
 router.post("/generate-and-send-pdf", postPdf)
