@@ -16,10 +16,10 @@ let baseUrl = "https://lapashaform.vercel.app";
 module.exports.postRegisterData = (async (req, res) => {
   console.log(req.body)
   try {
-    const newPassword = await bcrypt.hash(req.body.password, 10)
+    const newPassword = await bcrypt.hash(req.body.authPassword, 10)
     await User.create({
-      name: req.body.name,
-      email: req.body.email,
+      name: req.body.authName,
+      email: req.body.authEmail,
       password: newPassword,
     })
     res.json({ status: 'ok' })
@@ -30,23 +30,20 @@ module.exports.postRegisterData = (async (req, res) => {
 
 module.exports.postLoginData = (async (req, res) => {
   const user = await User.findOne({
-    email: req.body.email,
+    authEmail: req.body.authEmail,
   })
-
   if (!user) {
     return { status: 'error', error: 'Invalid login' }
   }
-
   const isPasswordValid = await bcrypt.compare(
-    req.body.password,
+    req.body.authPassword,
     user.password
   )
-
   if (isPasswordValid) {
     const token = jwt.sign(
       {
-        name: user.name,
-        email: user.email,
+        name: user.authName,
+        email: user.authEmail,
       },
       'secret123'
     )
