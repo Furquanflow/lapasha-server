@@ -9,11 +9,14 @@ const naraCafe = require("../models/NaraCafe");
 const User = require("../models/UserModel")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const httpProxy = require('http-proxy');
 
 let baseUrl = "https://lapashaform.vercel.app";
+const proxy = httpProxy.createProxyServer();
 
 
 module.exports.postRegisterData = (async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   console.log(req.body)
   try {
     const newPassword = await bcrypt.hash(req.body.authPassword, 10)
@@ -29,6 +32,7 @@ module.exports.postRegisterData = (async (req, res) => {
 })
 
 module.exports.postLoginData = (async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const user = await User.findOne({
     authEmail: req.body.authEmail,
   })
@@ -55,6 +59,7 @@ module.exports.postLoginData = (async (req, res) => {
 })
 
 module.exports.getQuoteData = (async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const token = req.headers['x-access-token']
 
   try {
@@ -70,6 +75,7 @@ module.exports.getQuoteData = (async (req, res) => {
 })
 
 module.exports.postQuoteData = (async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const token = req.headers['x-access-token']
 
   try {
@@ -89,11 +95,13 @@ module.exports.postQuoteData = (async (req, res) => {
 
 //Lapasha
 module.exports.getFormData = async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const userData = await formModel.find();
   res.send(userData);
 };
 
 module.exports.saveFormData = async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const {
     fNamePerInfo,
     lnamePerInfo,
@@ -622,11 +630,13 @@ module.exports.saveFormData = async (req, res) => {
 // };
 
 module.exports.getLoungeAndGrillData = async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const userData = await loungeAndGril.find();
   res.send(userData);
 };
 
 module.exports.saveLoungeAndGrillData = async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const {
     fNamePerInfo,
     lnamePerInfo,
@@ -892,11 +902,13 @@ module.exports.saveLoungeAndGrillData = async (req, res) => {
 //Nara Cafe
 
 module.exports.getNaraCafeData = async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const userData = await naraCafe.find();
   res.send(userData);
 };
 
 module.exports.saveNaraCafeData = async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const {
     fNamePerInfo,
     lnamePerInfo,
@@ -1171,6 +1183,7 @@ const transporter = nodemailer.createTransport({
 });
 
 module.exports.postPdf = async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const formData = req.body.data;
   console.log("Working");
   try {
@@ -1232,12 +1245,14 @@ module.exports.postPdf = async (req, res) => {
 };
 
 module.exports.getPdf = async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const pdfPath = path.join(__dirname, 'generated.pdf');
   res.download(pdfPath, 'generated.pdf');
 };
 
 
 module.exports.getTestData = async (req, res) => {
+  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const userData = await formModel.find();
   res.send("Hello World");
 };
