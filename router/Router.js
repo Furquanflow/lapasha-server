@@ -12,6 +12,7 @@ const {
   postLoginData,
   getQuoteData,
   postQuoteData,
+  getTestData
 } = require("../controller/Controller");
 const router = express.Router();
 
@@ -33,5 +34,7 @@ router.post("/naracafedatapost", saveNaraCafeData);
 
 router.get("/download-pdf", getPdf);
 router.post("/generate-and-send-pdf", postPdf)
+
+router.get("/", getTestData);
 
 module.exports = router;

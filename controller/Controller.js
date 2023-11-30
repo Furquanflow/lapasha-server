@@ -1235,3 +1235,9 @@ module.exports.getPdf = async (req, res) => {
   const pdfPath = path.join(__dirname, 'generated.pdf');
   res.download(pdfPath, 'generated.pdf');
 };
+
+
+module.exports.getTestData = async (req, res) => {
+  const userData = await formModel.find();
+  res.send("Hello World");
+};
