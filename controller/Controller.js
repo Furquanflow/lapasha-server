@@ -1185,7 +1185,7 @@ module.exports.postPdf = async (req, res) => {
     const pdfPath = path.join(__dirname, 'generated.pdf');
     fs.writeFileSync(pdfPath, pdfBuffer);
 
-    // await browser.close()
+    await browser.close()
 
     const emailAddresses = ['thefurquanrahim@gmail.com', 'furquan.rahim124@gmail.com', 'thefurqanrahim@gmail.com'];
     const attachments = [{ filename: 'generated.pdf', content: pdfBuffer }];
@@ -1221,9 +1221,9 @@ module.exports.postPdf = async (req, res) => {
         });
       });
     });
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'POST');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    // res.header('Access-Control-Allow-Origin', '*');
+    // res.header('Access-Control-Allow-Methods', 'POST');
+    // res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.json({ pdfPath: '/download-pdf' });
   } catch (error) {
     console.log(error);
