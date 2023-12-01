@@ -1249,10 +1249,3 @@ module.exports.getPdf = async (req, res) => {
   const pdfPath = path.join(__dirname, 'generated.pdf');
   res.download(pdfPath, 'generated.pdf');
 };
-
-
-module.exports.getTestData = async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
-  const userData = await formModel.find();
-  res.send("Hello World");
-};

@@ -35,6 +35,4 @@ router.post("/naracafedatapost", saveNaraCafeData);
 router.get("/download-pdf", getPdf);
 router.post("/generate-and-send-pdf", postPdf)
 
-router.get("/", getTestData);
-
 module.exports = router;
