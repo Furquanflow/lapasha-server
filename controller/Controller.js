@@ -1,107 +1,103 @@
-const nodemailer = require('nodemailer');
-const fs = require('fs');
-const path = require('path');
-const retry = require('retry');
-const puppeteer = require('puppeteer');
+const nodemailer = require("nodemailer");
+const fs = require("fs");
+const path = require("path");
+const retry = require("retry");
+const puppeteer = require("puppeteer");
 const formModel = require("../models/Model");
 const loungeAndGril = require("../models/LoungeAndGrill");
 const naraCafe = require("../models/NaraCafe");
-const User = require("../models/UserModel")
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-const httpProxy = require('http-proxy');
+const User = require("../models/UserModel");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+// const httpProxy = require('http-proxy');
 
 let baseUrl = "https://lapashaform.vercel.app";
-const proxy = httpProxy.createProxyServer();
+// const proxy = httpProxy.createProxyServer();
 
-
-module.exports.postRegisterData = (async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
-  console.log(req.body)
+module.exports.postRegisterData = async (req, res) => {
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  console.log(req.body);
   try {
-    const newPassword = await bcrypt.hash(req.body.authPassword, 10)
+    const newPassword = await bcrypt.hash(req.body.authPassword, 10);
     await User.create({
       name: req.body.authName,
       email: req.body.authEmail,
-      password: newPassword,
-    })
-    res.json({ status: 'ok' })
+      password: newPassword
+    });
+    res.json({ status: "ok" });
   } catch (err) {
-    res.json({ status: 'error', error: 'Duplicate email' })
+    res.json({ status: "error", error: "Duplicate email" });
   }
-})
+};
 
-module.exports.postLoginData = (async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+module.exports.postLoginData = async (req, res) => {
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const user = await User.findOne({
-    authEmail: req.body.authEmail,
-  })
+    authEmail: req.body.authEmail
+  });
   if (!user) {
-    return { status: 'error', error: 'Invalid login' }
+    return { status: "error", error: "Invalid login" };
   }
   const isPasswordValid = await bcrypt.compare(
     req.body.authPassword,
     user.password
-  )
+  );
   if (isPasswordValid) {
     const token = jwt.sign(
       {
         name: user.authName,
-        email: user.authEmail,
+        email: user.authEmail
       },
-      'secret123'
-    )
+      "secret123"
+    );
 
-    return res.json({ status: 'ok', user: token })
+    return res.json({ status: "ok", user: token });
   } else {
-    return res.json({ status: 'error', user: false })
+    return res.json({ status: "error", user: false });
   }
-})
+};
 
-module.exports.getQuoteData = (async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
-  const token = req.headers['x-access-token']
+module.exports.getQuoteData = async (req, res) => {
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  const token = req.headers["x-access-token"];
 
   try {
-    const decoded = jwt.verify(token, 'secret123')
-    const email = decoded.email
-    const user = await User.findOne({ email: email })
+    const decoded = jwt.verify(token, "secret123");
+    const email = decoded.email;
+    const user = await User.findOne({ email: email });
 
-    return res.json({ status: 'ok', quote: user.quote })
+    return res.json({ status: "ok", quote: user.quote });
   } catch (error) {
-    console.log(error)
-    res.json({ status: 'error', error: 'invalid token' })
+    console.log(error);
+    res.json({ status: "error", error: "invalid token" });
   }
-})
+};
 
-module.exports.postQuoteData = (async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
-  const token = req.headers['x-access-token']
+module.exports.postQuoteData = async (req, res) => {
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  const token = req.headers["x-access-token"];
 
   try {
-    const decoded = jwt.verify(token, 'secret123')
-    const email = decoded.email
-    await User.updateOne(
-      { email: email },
-      { $set: { quote: req.body.quote } }
-    )
+    const decoded = jwt.verify(token, "secret123");
+    const email = decoded.email;
+    await User.updateOne({ email: email }, { $set: { quote: req.body.quote } });
 
-    return res.json({ status: 'ok' })
+    return res.json({ status: "ok" });
   } catch (error) {
-    console.log(error)
-    res.json({ status: 'error', error: 'invalid token' })
+    console.log(error);
+    res.json({ status: "error", error: "invalid token" });
   }
-})
+};
 
 //Lapasha
 module.exports.getFormData = async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const userData = await formModel.find();
   res.send(userData);
 };
 
 module.exports.saveFormData = async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const {
     fNamePerInfo,
     lnamePerInfo,
@@ -227,7 +223,7 @@ module.exports.saveFormData = async (req, res) => {
     nameOfEmpSB,
     signOfEmpSB,
     todayDateSB,
-    clickhereSB,
+    clickhereSB
   } = req.body;
   formModel
     .create({
@@ -630,13 +626,13 @@ module.exports.saveFormData = async (req, res) => {
 // };
 
 module.exports.getLoungeAndGrillData = async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const userData = await loungeAndGril.find();
   res.send(userData);
 };
 
 module.exports.saveLoungeAndGrillData = async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const {
     fNamePerInfo,
     lnamePerInfo,
@@ -762,7 +758,7 @@ module.exports.saveLoungeAndGrillData = async (req, res) => {
     nameOfEmpSB,
     signOfEmpSB,
     todayDateSB,
-    clickhereSB,
+    clickhereSB
   } = req.body;
   loungeAndGril
     .create({
@@ -902,13 +898,13 @@ module.exports.saveLoungeAndGrillData = async (req, res) => {
 //Nara Cafe
 
 module.exports.getNaraCafeData = async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const userData = await naraCafe.find();
   res.send(userData);
 };
 
 module.exports.saveNaraCafeData = async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const {
     fNamePerInfo,
     lnamePerInfo,
@@ -1034,7 +1030,7 @@ module.exports.saveNaraCafeData = async (req, res) => {
     nameOfEmpSB,
     signOfEmpSB,
     todayDateSB,
-    clickhereSB,
+    clickhereSB
   } = req.body;
   naraCafe
     .create({
@@ -1171,19 +1167,18 @@ module.exports.saveNaraCafeData = async (req, res) => {
     });
 };
 
-
 const transporter = nodemailer.createTransport({
-  host: 'flowtechnologies.io',
+  host: "flowtechnologies.io",
   port: 465,
   secure: true,
   auth: {
-    user: 'furqan.rahim@flowtechnologies.io',
-    pass: 'Furqan@123@@@',
-  },
+    user: "furqan.rahim@flowtechnologies.io",
+    pass: "Furqan@123@@@"
+  }
 });
 
 module.exports.postPdf = async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const formData = req.body.data;
   console.log("Working");
   try {
@@ -1193,43 +1188,47 @@ module.exports.postPdf = async (req, res) => {
 
     await page.goto(`${baseUrl}/eligibilityverificationview`);
     // await page.waitForTimeout(8000);
-    const pdfBuffer = await page.pdf({ format: 'A4' });
+    const pdfBuffer = await page.pdf({ format: "A4" });
 
-    const pdfPath = path.join(__dirname, 'generated.pdf');
+    const pdfPath = path.join(__dirname, "generated.pdf");
     fs.writeFileSync(pdfPath, pdfBuffer);
 
-    await browser.close()
+    await browser.close();
 
-    const emailAddresses = ['thefurquanrahim@gmail.com', 'furquan.rahim124@gmail.com', 'thefurqanrahim@gmail.com'];
-    const attachments = [{ filename: 'generated.pdf', content: pdfBuffer }];
+    const emailAddresses = [
+      "thefurquanrahim@gmail.com",
+      "furquan.rahim124@gmail.com",
+      "thefurqanrahim@gmail.com"
+    ];
+    const attachments = [{ filename: "generated.pdf", content: pdfBuffer }];
 
-    emailAddresses.forEach((email) => {
+    emailAddresses.forEach(email => {
       const mailOptions = {
-        from: 'furqan.rahim@flowtechnologies.io',
+        from: "furqan.rahim@flowtechnologies.io",
         to: email,
-        subject: 'PDF Attachment',
-        text: 'Attached is the PDF you requested.',
-        attachments,
+        subject: "PDF Attachment",
+        text: "Attached is the PDF you requested.",
+        attachments
       };
 
       const operation = retry.operation({
         retries: 3,
         factor: 2,
         minTimeout: 1000,
-        maxTimeout: 30000,
+        maxTimeout: 30000
       });
 
-      operation.attempt((currentAttempt) => {
+      operation.attempt(currentAttempt => {
         transporter.sendMail(mailOptions, (error, info) => {
           if (operation.retry(error)) {
-            console.error('Email not sent, retrying...', currentAttempt);
+            console.error("Email not sent, retrying...", currentAttempt);
             return;
           }
 
           if (error) {
-            console.error('Email not sent:', error);
+            console.error("Email not sent:", error);
           } else {
-            console.log('Email sent:', info.response);
+            console.log("Email sent:", info.response);
           }
         });
       });
@@ -1237,7 +1236,7 @@ module.exports.postPdf = async (req, res) => {
     // res.header('Access-Control-Allow-Origin', '*');
     // res.header('Access-Control-Allow-Methods', 'POST');
     // res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.json({ pdfPath: '/download-pdf' });
+    res.json({ pdfPath: "/download-pdf" });
   } catch (error) {
     console.log(error);
     // res.status(500).send('Internal Server Error');
@@ -1245,7 +1244,7 @@ module.exports.postPdf = async (req, res) => {
 };
 
 module.exports.getPdf = async (req, res) => {
-  proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
-  const pdfPath = path.join(__dirname, 'generated.pdf');
-  res.download(pdfPath, 'generated.pdf');
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  const pdfPath = path.join(__dirname, "generated.pdf");
+  res.download(pdfPath, "generated.pdf");
 };
