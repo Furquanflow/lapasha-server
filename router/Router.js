@@ -12,16 +12,24 @@ const {
   postLoginData,
   getQuoteData,
   postQuoteData,
-  getTestData
+  postAdminRegisterData,
+  postAdminLoginData,
+  postAdminQuoteData,
+  getAdminQuoteData,
 } = require("../controller/Controller");
 const router = express.Router();
 
-//Authentication and Authorization
+//Admin Authentication and Authorization
+router.post("/admin/register", postAdminRegisterData);
+router.post("/admin/login", postAdminLoginData);
+router.post("/admin/quote", postAdminQuoteData);
+router.get("/admin/quote", getAdminQuoteData);
 
-router.post("/register", postRegisterData)
-router.post("/login", postLoginData)
-router.post("/quote", postQuoteData)
-router.get("/quote", getQuoteData)
+//User Authentication and Authorization
+router.post("/register", postRegisterData);
+router.post("/login", postLoginData);
+router.post("/quote", postQuoteData);
+router.get("/quote", getQuoteData);
 
 router.get("/formdata", getFormData);
 router.post("/formdatapost", saveFormData);
@@ -33,6 +41,6 @@ router.get("/naracafedata", getNaraCafeData);
 router.post("/naracafedatapost", saveNaraCafeData);
 
 router.get("/download-pdf", getPdf);
-router.post("/generate-and-send-pdf", postPdf)
+router.post("/generate-and-send-pdf", postPdf);
 
 module.exports = router;

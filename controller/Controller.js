@@ -7,12 +7,93 @@ const formModel = require("../models/Model");
 const loungeAndGril = require("../models/LoungeAndGrill");
 const naraCafe = require("../models/NaraCafe");
 const User = require("../models/UserModel");
+const adminModel = require("../models/AdminAuth");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 // const httpProxy = require('http-proxy');
 
 let baseUrl = "http://localhost:3000";
 // const proxy = httpProxy.createProxyServer();
+
+//Admin Authentication and Authorization
+module.exports.postAdminRegisterData = async (req, res) => {
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  console.log(req.body);
+  try {
+    const newPassword = await bcrypt.hash(req.body.authAdminPassword, 10);
+    await adminModel.create({
+      name: req.body.authAdminName,
+      email: req.body.authAdminEmail,
+      password: newPassword
+    });
+    res.json({ status: "ok" });
+  } catch (err) {
+    res.json({ status: "error", error: "Duplicate email" });
+  }
+};
+
+module.exports.postAdminLoginData = async (req, res) => {
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  const adminUser = await adminModel.findOne({
+    authAdminEmail: req.body.email
+  });
+  if (!adminUser) {
+    return { status: "error", error: "Invalid login" };
+  }
+  const isPasswordValid = await bcrypt.compare(
+    req.body.authAdminPassword,
+    adminUser.password
+  );
+  if (isPasswordValid) {
+    const token = jwt.sign(
+      {
+        name: adminUser.authAdminName,
+        email: adminUser.authAdminEmail
+      },
+      "secret123"
+    );
+
+    return res.json({ status: "ok", adminUser: token });
+  } else {
+    return res.json({ status: "error", adminUser: false });
+  }
+};
+
+module.exports.getAdminQuoteData = async (req, res) => {
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  const token = req.headers["x-access-token"];
+
+  try {
+    const decoded = jwt.verify(token, "secret123");
+    const email = decoded.email;
+    const user = await adminModel.findOne({ email: email });
+    return res.json({ status: "ok", quote: user.quote });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "error", error: "invalid token" });
+  }
+};
+
+module.exports.postAdminQuoteData = async (req, res) => {
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  const token = req.headers["x-access-token"];
+
+  try {
+    const decoded = jwt.verify(token, "secret123");
+    const email = decoded.email;
+    await adminModel.updateOne(
+      { email: email },
+      { $set: { quote: req.body.quote } }
+    );
+
+    return res.json({ status: "ok" });
+  } catch (error) {
+    console.log(error);
+    res.json({ status: "error", error: "invalid token" });
+  }
+};
+
+// User Authentication and Authorization
 
 module.exports.postRegisterData = async (req, res) => {
   // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
