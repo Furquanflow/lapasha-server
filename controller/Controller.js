@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 // const httpProxy = require('http-proxy');
 
-let baseUrl = "https://lapashaform.vercel.app";
+let baseUrl = "http://localhost:3000";
 // const proxy = httpProxy.createProxyServer();
 
 module.exports.postRegisterData = async (req, res) => {
@@ -33,7 +33,7 @@ module.exports.postRegisterData = async (req, res) => {
 module.exports.postLoginData = async (req, res) => {
   // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const user = await User.findOne({
-    authEmail: req.body.authEmail
+    authEmail: req.body.email
   });
   if (!user) {
     return { status: "error", error: "Invalid login" };
@@ -65,7 +65,6 @@ module.exports.getQuoteData = async (req, res) => {
     const decoded = jwt.verify(token, "secret123");
     const email = decoded.email;
     const user = await User.findOne({ email: email });
-
     return res.json({ status: "ok", quote: user.quote });
   } catch (error) {
     console.log(error);
