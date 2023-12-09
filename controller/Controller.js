@@ -16,6 +16,7 @@ let baseUrl = "http://localhost:3000";
 // const proxy = httpProxy.createProxyServer();
 
 //Admin Authentication and Authorization
+
 module.exports.postAdminRegisterData = async (req, res) => {
   // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   console.log(req.body);
@@ -67,7 +68,7 @@ module.exports.getAdminQuoteData = async (req, res) => {
     const decoded = jwt.verify(token, "secret123");
     const email = decoded.email;
     const user = await adminModel.findOne({ email: email });
-    return res.json({ status: "ok", quote: user.quote });
+    return res.json({ status: "ok", qquote: user.quote });
   } catch (error) {
     console.log(error);
     res.json({ status: "error", error: "invalid token" });
@@ -1267,7 +1268,37 @@ module.exports.postPdf = async (req, res) => {
     const page = await browser.newPage();
 
     await page.goto(`${baseUrl}/eligibilityverificationview`);
-    // await page.waitForTimeout(8000);
+    await page.waitForTimeout(8000);
+    const pdfBuffer = await page.pdf({ format: "A4" });
+
+    const pdfPath = path.join(__dirname, "generated.pdf");
+    fs.writeFileSync(pdfPath, pdfBuffer);
+
+    await browser.close();
+    
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.json({ pdfPath: "/download-pdf" });
+  } catch (error) {
+    console.log(error);
+    // res.status(500).send('Internal Server Error');
+  }
+};
+
+
+//Employeer/Manager Pdf
+module.exports.postEmployerPdf = async (req, res) => {
+  // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
+  const formData = req.body.data;
+  console.log("Working");
+  try {
+    const browser = await puppeteer.launch({ headless: "new" });
+    console.log("Working");
+    const page = await browser.newPage();
+
+    await page.goto(`${baseUrl}/eligibilityverificationview`);
+    await page.waitForTimeout(8000);
     const pdfBuffer = await page.pdf({ format: "A4" });
 
     const pdfPath = path.join(__dirname, "generated.pdf");
@@ -1313,9 +1344,9 @@ module.exports.postPdf = async (req, res) => {
         });
       });
     });
-    // res.header('Access-Control-Allow-Origin', '*');
-    // res.header('Access-Control-Allow-Methods', 'POST');
-    // res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.json({ pdfPath: "/download-pdf" });
   } catch (error) {
     console.log(error);

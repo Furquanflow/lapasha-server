@@ -7,6 +7,7 @@ const {
   getNaraCafeData,
   saveNaraCafeData,
   postPdf,
+  postEmployerPdf,
   getPdf,
   postRegisterData,
   postLoginData,
@@ -41,6 +42,7 @@ router.get("/naracafedata", getNaraCafeData);
 router.post("/naracafedatapost", saveNaraCafeData);
 
 router.get("/download-pdf", getPdf);
+router.post("/generate-and-send-pdf-employer", postEmployerPdf);
 router.post("/generate-and-send-pdf", postPdf);
 
 module.exports = router;
