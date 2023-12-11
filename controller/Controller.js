@@ -1305,47 +1305,47 @@ module.exports.postEmployerPdf = async (req, res) => {
 
     await browser.close();
 
-    const emailAddresses = [
-      "thefurquanrahim@gmail.com",
-      "furquan.rahim124@gmail.com",
-      "thefurqanrahim@gmail.com"
-    ];
-    const attachments = [{ filename: "generated.pdf", content: pdfBuffer }];
+    // const emailAddresses = [
+    //   "thefurquanrahim@gmail.com",
+    //   "furquan.rahim124@gmail.com",
+    //   "thefurqanrahim@gmail.com"
+    // ];
+    // const attachments = [{ filename: "generated.pdf", content: pdfBuffer }];
 
-    emailAddresses.forEach(email => {
-      const mailOptions = {
-        from: "furqan.rahim@flowtechnologies.io",
-        to: email,
-        subject: "PDF Attachment",
-        text: "Attached is the PDF you requested.",
-        attachments
-      };
+    // emailAddresses.forEach(email => {
+    //   const mailOptions = {
+    //     from: "furqan.rahim@flowtechnologies.io",
+    //     to: email,
+    //     subject: "PDF Attachment",
+    //     text: "Attached is the PDF you requested.",
+    //     attachments
+    //   };
 
-      const operation = retry.operation({
-        retries: 3,
-        factor: 2,
-        minTimeout: 1000,
-        maxTimeout: 30000
-      });
+    //   const operation = retry.operation({
+    //     retries: 3,
+    //     factor: 2,
+    //     minTimeout: 1000,
+    //     maxTimeout: 30000
+    //   });
 
-      operation.attempt(currentAttempt => {
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (operation.retry(error)) {
-            console.error("Email not sent, retrying...", currentAttempt);
-            return;
-          }
+    //   operation.attempt(currentAttempt => {
+    //     transporter.sendMail(mailOptions, (error, info) => {
+    //       if (operation.retry(error)) {
+    //         console.error("Email not sent, retrying...", currentAttempt);
+    //         return;
+    //       }
 
-          if (error) {
-            console.error("Email not sent:", error);
-          } else {
-            console.log("Email sent:", info.response);
-          }
-        });
-      });
-    });
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "POST");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
+    //       if (error) {
+    //         console.error("Email not sent:", error);
+    //       } else {
+    //         console.log("Email sent:", info.response);
+    //       }
+    //     });
+    //   });
+    // });
+    // res.header("Access-Control-Allow-Origin", "*");
+    // res.header("Access-Control-Allow-Methods", "POST");
+    // res.header("Access-Control-Allow-Headers", "Content-Type");
     res.json({ pdfPath: "/download-pdf" });
   } catch (error) {
     console.log(error);
