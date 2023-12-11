@@ -1275,17 +1275,16 @@ module.exports.postPdf = async (req, res) => {
     fs.writeFileSync(pdfPath, pdfBuffer);
 
     await browser.close();
-    
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'POST');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "POST");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
     res.json({ pdfPath: "/download-pdf" });
   } catch (error) {
     console.log(error);
     // res.status(500).send('Internal Server Error');
   }
 };
-
 
 //Employeer/Manager Pdf
 module.exports.postEmployerPdf = async (req, res) => {
@@ -1344,9 +1343,9 @@ module.exports.postEmployerPdf = async (req, res) => {
         });
       });
     });
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'POST');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "POST");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
     res.json({ pdfPath: "/download-pdf" });
   } catch (error) {
     console.log(error);

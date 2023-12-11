@@ -16,7 +16,7 @@ const {
   postAdminRegisterData,
   postAdminLoginData,
   postAdminQuoteData,
-  getAdminQuoteData,
+  getAdminQuoteData
 } = require("../controller/Controller");
 const router = express.Router();
 
@@ -32,15 +32,19 @@ router.post("/login", postLoginData);
 router.post("/quote", postQuoteData);
 router.get("/quote", getQuoteData);
 
+//Patio endpoints
 router.get("/formdata", getFormData);
 router.post("/formdatapost", saveFormData);
 
+//Lounge And Grill endpoints
 router.get("/loungeandgrilldata", getLoungeAndGrillData);
 router.post("/loungeandgrilldatapost", saveLoungeAndGrillData);
 
+//Naracafe endpoints
 router.get("/naracafedata", getNaraCafeData);
 router.post("/naracafedatapost", saveNaraCafeData);
 
+//Pdf Generator and Email send endpoints
 router.get("/download-pdf", getPdf);
 router.post("/generate-and-send-pdf-employer", postEmployerPdf);
 router.post("/generate-and-send-pdf", postPdf);
