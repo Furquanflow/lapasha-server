@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 // const httpProxy = require('http-proxy');
 
-let baseUrl = "http://localhost:3000";
+let baseUrl = "https://lapashaform.vercel.app";
 // const proxy = httpProxy.createProxyServer();
 
 //Admin Authentication and Authorization
