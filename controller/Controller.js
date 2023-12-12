@@ -1291,19 +1291,19 @@ module.exports.postEmployerPdf = async (req, res) => {
   // proxy.web(req, res, { target: 'http://52.204.170.61:8000' });
   const formData = req.body.data;
   try {
-    // const browser = await puppeteer.launch({ headless: "new" });
-    // const page = await browser.newPage();
-
-    const browser = await puppeteer.launch({
-      headless: true,
-      devtools: true,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-web-security"
-      ]
-    });
+    const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
+
+    // const browser = await puppeteer.launch({
+    //   headless: true,
+    //   devtools: true,
+    //   args: [
+    //     "--no-sandbox",
+    //     "--disable-setuid-sandbox",
+    //     "--disable-web-security"
+    //   ]
+    // });
+    // const page = await browser.newPage();
 
     await page.goto(`${baseUrl}/eligibilityverificationview`);
     // await page.waitForTimeout(8000);
